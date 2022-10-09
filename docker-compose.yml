@@ -1,0 +1,32 @@
+version: '3.6'
+services:
+  core_api:
+    build:
+      context: ./docker/core_api
+    depends_on:
+    - postgres_gas
+    volumes:
+    - ./t:/var/www/t
+    - ./bin:/var/www/bin
+    - ./lib:/var/www/lib
+    - ./config:/var/www/config
+    environment:
+      start_daemon: 'yes'
+      #  LOG_TO_STDOUT: ${LOG_TO_STDOUT:-0}
+      # DBIC_TRACE: ${DBIC_TRACE:-0}
+      # CONFIG_DIR: ${CONFIG_DIR:-/spool/}
+      # PERL5LIB: /var/www/local/lib/perl5
+    restart: unless-stopped
+
+  postgres_gas:
+    build:
+      context: ./docker/postgres_gas
+    ports:
+    - published: 6432
+      target: 5432
+    environment:
+      POSTGRES_DB: gas
+      POSTGRES_PASSWORD: gas
+      POSTGRES_USER: gas
+    restart: unless-stopped
+

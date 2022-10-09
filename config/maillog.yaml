@@ -1,0 +1,11 @@
+dbh:
+  connection:
+    schema: dbi:Pg:dbname=gaz
+    host: localhost
+    port: 5432
+    user: 'gaz'
+    pass: 'gaz'
+    options: 
+      RaiseError: 1
+
+

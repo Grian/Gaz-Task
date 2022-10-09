@@ -1,0 +1,264 @@
+ID:
+    X-Project-Name: rais
+    allow_get: 1
+    default_social: internal
+    host: id_dummy:3000
+    id_proxy_server: 1
+    local:
+        project:
+            model: PostgreSQL
+            result: Project::Item
+        user:
+            autocreate: 1
+            model: PostgreSQL
+            result: User::Item
+    protocol: http
+    secret_key: Fw8oK4kTd65vzG3IMwl3swrP9jYkQJkS
+IPChain:
+    is_enabled: false
+    debug: true
+    protocol: https
+    host: org1.testnet.ipchain.ru
+    headers:
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDcwNzg0MDAsInJvbGUiOiJ3cml0ZXIifQ.ckX3khMTE2nH-rq6ibSAygwpTyG4qPw2hdCA8Grv1Dk'
+    channel: media
+    sight_uri_template: 'https://demo.ipchain.ru/sight/object/?id=%s&channel=%s'
+Model::PostgreSQL:
+    connect_info:
+    - dbi:Pg:dbname=rais;host=postgres_rais;port=5432
+    - rais
+    - qazwiox
+    -   AutoCommit: 1
+        disable_sth_caching: 1
+        name_sep: .
+        pg_enable_utf8: 1
+        pg_server_prepare: 0
+        quote_char: '"'
+Model::PostgreSQL::Replica:
+    connect_info:
+    - dbi:Pg:dbname=rais;host=postgres_rais;port=5432
+    - rais
+    - qazwiox
+    -   AutoCommit: 1
+        disable_sth_caching: 1
+        name_sep: .
+        pg_enable_utf8: 1
+        pg_server_prepare: 0
+        quote_char: '"'
+Model::IPI:
+    connect_info:
+    - dbi:Pg:dbname=hg_stand_ipi;host=postgres_ipi;port=5432
+    - rais
+    - qazwiox
+    -   AutoCommit: 1
+        disable_sth_caching: 1
+        name_sep: .
+        pg_enable_utf8: 1
+        pg_server_prepare: 0
+        quote_char: '"'
+Model::FinHubDB:
+    connect_info:
+        - dbi:Pg:dbname=hg_stand_finhub;host=postgres_finhub;port=5432
+        - rais
+        - qazwiox
+        -   AutoCommit:             1
+            disable_sth_caching:    1
+            name_sep:               .
+            pg_enable_utf8:         1
+            pg_server_prepare:      0
+            quote_char:             '"'
+Model::RAO:
+    connect_info:
+    - dbi:Pg:dbname=rao_lkp;host=postgres;port=5432
+    - rais
+    - qazwiox
+    -   AutoCommit: 1
+        disable_sth_caching: 1
+        name_sep: .
+        pg_enable_utf8: 1
+        pg_server_prepare: 0
+        quote_char: '"'
+
+
+Model::Cache:
+    server: redis:6379
+    prefix: HG
+
+
+# Manually inserted because project config deploy doesn't work:
+Fonmix:
+    host: qa.fonmix.ru
+    protocol: http
+    secret_key: D0610eFA9bCEDb1B728A4e05CdE2b839
+MxHub:
+    host: mxhub.qa2.prototypes.ru
+    port: 80
+    protocol: http
+    secret_key: ZWRhNDMzYmQ4ZGE2NGMwYzRkOTlhM2I2
+
+Resource:
+    Documentor:
+        Endpoint: "https://documentor.hypergraph.dev.k8s.id-network.ru/documentor/api/v1/document"
+        Token: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTg3NjE2MDAsImlzcyI6ImRvY3VtZW50b3IiLCJjbGllbnQiOiJoZyJ9.TAoTcxnzUI0r4Gn5q7ZUHueFOhMJBiHJ4JR_HFRyR2Q'
+    TakeItEasy:
+        Endpoint: "https://tie.hypergraph.dev.k8s.id-network.ru/tie/api/v1/public/file"
+        Token: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4MjMxNjI0MDAsImlzcyI6ImhnIiwiYnVja2V0IjoibGtwLWRldiJ9.BDsotxKGDsfPjHRygW6kFagOuN7AoDfLjl_L8_YIDng'
+
+Report:
+    default_contragent_id: 58ee6011-0000-0000-0000-0000c671fcc3
+    automation: 1
+    aux_type:
+        by_detect:
+            ext: xls,xlsx
+            rules:
+                rule1:
+                    cols: 7
+                    by_cell:
+                        x: 1
+                        y: 15
+                        value: название фонограммы
+                        lowercase: 1
+                    type: 51
+                rule2:
+                    cols: 6
+                    by_cell:
+                        x: 0
+                        y: 15
+                        value: название фонограммы
+                        lowercase: 1
+                    #alternative_header: yes
+                    type: 52
+        by_detect_ext:
+            json: 48
+    Matching:
+        MaxThreads: 10
+        FonmixOnly: 1
+
+S3:
+    port:       8080
+    host:       minio
+    protocol:   http
+    alias:      s3
+    bucket:     rais
+    retry: 0
+    timeout: 40
+    time_to_reconnect: 300
+    access_key: "263c2f37-568d-48a7-aab9-fa9e335d739e"
+    secret_key: "c0c47aa0-cfa8-4173-ae97-d88a370b3e0c"
+
+VOIS::FinHub:
+    X-Project-Name: vois_sro_qa
+    host: finhub.vois.qa.prototypes.ru
+    protocol: http
+    secret_key: HabTBeeTJpdhvqnehWKmhJ4Sd6eAPC5w
+View::JSON:
+    expose_stash: json_data
+default_view: JSON
+encoding: UTF-8
+host: api.rais.qa.prototypes.ru
+tmp_dir: /spool/tmp
+sys_user_id: 2dacb8ff-9b74-482a-9821-4e5ff5a4e9fe
+sys_user_name: System
+
+fqdn: test.rais.d-net.pro
+project_root: /var/www
+doc_tmpl_dir: resources/i18n/doc_tmpl
+
+StateInfo:
+    id: 58da870b-0000-0000-0000-0000119c2f38
+    code_iso: RUS
+    title: РОССИЯ
+    report_name: _DC__RI_/_UG_-_YY_-_CNT_
+
+Currency:
+    CountryCodeIso: RUS
+    CodeIsoMain: rouble
+    CodeIsoChange: kopeck
+    MainSign: RUB
+    MainSignLocal: руб
+
+Translation:
+    path: resources/i18n
+    locale: DEFAULT
+
+log_level: DEBUG
+log_dir: /spool/log
+
+# Параметры сервера фоновых задач
+JobQueue:
+    host: gearman # Gearman job queue server
+    port: 4730
+
+# Особый функционал кнопок в шапке Выплат /sro/finance/payouts/.
+# Связано с тем, что в разных странах выплаты должны быть реализованы по-разному.
+Frontend:
+    payout:
+        card:
+            buttons:
+                payoutButton: true
+                exportToAxapta: true
+                payoutButtonKG: false
+            columns:
+                documentDownload: true
+
+Logger:
+    account_item_payout: task_account
+    account_transfer_perform: task_account
+    catalog_file_import: task_catalog
+    catalog_file_match: task_catalog
+    catalog_file_parse: task_catalog
+    contracts: cron_contracts
+    contragent_catalog_create: task
+    contragent_residency_prolongate: cron_contragents
+    contragent_type_transitions: cron_contragents
+    contragents: cron_contragents
+    cuesheet_audiovisualwork_match: task_cuesheet
+    cuesheet_file_parse: task_cuesheet
+    export_to_axapta: export_to_axapta
+    money_to_rating_tracks: cron_contragents
+    money_to_rating_tracks_storno: cron_contragents
+    object_item_avw_recalc: task
+    object_status: cron_object_status
+    payment_analyze: cron_payments
+    payment_import: cron_payments
+    payment_process: cron_payments
+    payment_process_2: cron_payments_crm
+    payout_contract_generate_documents: task_payout
+    payout_item_rdf_generate: task_payout
+    process_axapta_extra_statuses: cron_contragents
+    rating_file_parse: task_rating
+    rating_item_calc: task_rating
+    rating_item_match: task_rating
+    report_crm_return: task_report
+    report_file_parse: task_report
+    report_item_calc: task_report
+    report_item_match: task_report
+    report_rows_copy: task_report
+    report_rows_delete: task_report
+    reporting_all_xls: task_reporting
+    reporting_rewardsext_xls: task_reporting
+    reporting_rewardsreport_xls: task_reporting
+    reporting_users_xls: task_reporting
+    report_finhub_reverse: cron_contragents
+    reward_documents: cron_reward_documents
+    reward_act: cron_reward_documents
+    reward_letter: cron_reward_documents
+    reward_report: cron_reward_documents
+    reward_file_import: task_reward
+    reward_item_attach_reports: task_reward
+    reward_item_calc: task_reward
+    reward_item_calculation_rollback: task_reward
+    reward_rightholders_to_finhub: cron_reward_rightholders_to_finhub
+    reward_rightholders_to_finhub_storno: cron_reward_rightholders_to_finhub
+    reward_to_reports: reward_to_reports
+    script_wrapper: cron
+    task_starter: cron
+    task_d: task
+    task_process: task
+    territory_fix: task
+    track_to_finhub: cron_track_to_finhub
+    write_off_money_from_period: cron_write_off_money_from_period
+    write_off_money_to_statistic: cron_write_off_money_to_statistic
+    write_off_money_to_statistic_storno: cron_write_off_money_to_statistic
+
+#-- end yaml
